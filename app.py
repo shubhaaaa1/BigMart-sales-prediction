@@ -4,7 +4,11 @@ import numpy as np
 import pickle
 
 # Load the trained model
-model = pickle.load(open('big_mart_model.pkl', 'rb'))  # Make sure you have this file in your directory
+try:
+    model = pickle.load(open('big_mart_model.pkl', 'rb'))
+except FileNotFoundError:
+    st.error("Model file not found. Please ensure 'big_mart_model.pkl' is in the same directory.")
+    st.stop()
 
 # App Title
 st.set_page_config(page_title="Big Mart Sales Prediction", page_icon="🛒", layout="centered")
@@ -17,10 +21,7 @@ def user_input_features():
     Item_Weight = st.sidebar.number_input('Item Weight', min_value=0.0, max_value=25.0, step=0.1)
 
     Item_Fat_Content = st.sidebar.selectbox('Item Fat Content', ('Low Fat', 'Regular'))
-    if Item_Fat_Content == 'Low Fat':
-        Fat_Content = 0
-    else:
-        Fat_Content = 1
+    Fat_Content = 0 if Item_Fat_Content == 'Low Fat' else 1
 
     Item_Visibility = st.sidebar.slider('Item Visibility', 0.0, 0.3, 0.05)
 
@@ -30,7 +31,6 @@ def user_input_features():
         'Canned', 'Breads', 'Starchy Foods', 'Others', 'Hard Drinks', 'Seafood'
     ])
 
-    # Encoding Item_Type manually
     item_type_dict = {
         'Fruits and Vegetables': 0, 'Dairy': 1, 'Baking Goods': 2, 'Snack Foods': 3,
         'Frozen Foods': 4, 'Breakfast': 5, 'Health and Hygiene': 6, 'Soft Drinks': 7,
@@ -74,11 +74,22 @@ input_df = user_input_features()
 st.subheader('Entered Item Details')
 st.write(input_df)
 
+# Optional: Dataset preview
+if st.checkbox("Show Sample Data"):
+    try:
+        data = pd.read_csv('big_mart_data.csv')
+        st.write(data.sample(5))
+    except FileNotFoundError:
+        st.warning("Dataset file not found. Upload 'big_mart_data.csv' if you want to use this feature.")
+
 # Predict Button
 if st.button('Predict Sales'):
-    prediction = model.predict(input_df)
-    st.subheader(f'Predicted Sales: ₹ {prediction[0]:.2f}')
-
+    with st.spinner('Predicting...'):
+        try:
+            prediction = model.predict(input_df)
+            st.success(f'Predicted Sales: ₹ {prediction[0]:.2f}')
+        except Exception as e:
+            st.error(f"Error in prediction: {e}")
 
 
 
