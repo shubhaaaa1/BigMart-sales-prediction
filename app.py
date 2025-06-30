@@ -18,31 +18,37 @@ st.title("🛒 Big Mart Sales Prediction App")
 st.sidebar.header("Enter the Item Details")
 
 def user_input_features():
+    Item_Identifier = st.sidebar.text_input('Item Identifier (optional)', 'FDA15')
+
     Item_Weight = st.sidebar.number_input('Item Weight', min_value=0.0, max_value=25.0, step=0.1)
 
     Item_Fat_Content = st.sidebar.selectbox('Item Fat Content', ('Low Fat', 'Regular'))
-    Fat_Content = 0 if Item_Fat_Content == 'Low Fat' else 1
+    fat_content_dict = {'Low Fat': 0, 'Regular': 1}
+    Fat_Content = fat_content_dict[Item_Fat_Content]
 
     Item_Visibility = st.sidebar.slider('Item Visibility', 0.0, 0.3, 0.05)
 
     Item_Type = st.sidebar.selectbox('Item Type', [
-        'Fruits and Vegetables', 'Dairy', 'Baking Goods', 'Snack Foods', 'Frozen Foods',
-        'Breakfast', 'Health and Hygiene', 'Soft Drinks', 'Meat', 'Household',
-        'Canned', 'Breads', 'Starchy Foods', 'Others', 'Hard Drinks', 'Seafood'
+        'Baking Goods', 'Breads', 'Breakfast', 'Canned', 'Dairy', 'Frozen Foods',
+        'Fruits and Vegetables', 'Health and Hygiene', 'Hard Drinks', 'Household',
+        'Meat', 'Others', 'Seafood', 'Snack Foods', 'Soft Drinks', 'Starchy Foods'
     ])
-
     item_type_dict = {
-        'Fruits and Vegetables': 0, 'Dairy': 1, 'Baking Goods': 2, 'Snack Foods': 3,
-        'Frozen Foods': 4, 'Breakfast': 5, 'Health and Hygiene': 6, 'Soft Drinks': 7,
-        'Meat': 8, 'Household': 9, 'Canned': 10, 'Breads': 11, 'Starchy Foods': 12,
-        'Others': 13, 'Hard Drinks': 14, 'Seafood': 15
+        'Baking Goods': 0, 'Breads': 1, 'Breakfast': 2, 'Canned': 3, 'Dairy': 4,
+        'Frozen Foods': 5, 'Fruits and Vegetables': 6, 'Health and Hygiene': 7,
+        'Hard Drinks': 8, 'Household': 9, 'Meat': 10, 'Others': 11,
+        'Seafood': 12, 'Snack Foods': 13, 'Soft Drinks': 14, 'Starchy Foods': 15
     }
     Item_Type_Encoded = item_type_dict[Item_Type]
 
     Item_MRP = st.sidebar.number_input('Item MRP', min_value=0.0, max_value=300.0, step=1.0)
 
-    Outlet_Size = st.sidebar.selectbox('Outlet Size', ('Small', 'Medium', 'High'))
-    outlet_size_dict = {'Small': 0, 'Medium': 1, 'High': 2}
+    Outlet_Identifier = st.sidebar.text_input('Outlet Identifier (optional)', 'OUT049')
+
+    Outlet_Establishment_Year = st.sidebar.number_input('Outlet Establishment Year', min_value=1985, max_value=2025, step=1)
+
+    Outlet_Size = st.sidebar.selectbox('Outlet Size', ('High', 'Medium', 'Small'))
+    outlet_size_dict = {'High': 0, 'Medium': 1, 'Small': 2}
     Outlet_Size_Encoded = outlet_size_dict[Outlet_Size]
 
     Outlet_Location_Type = st.sidebar.selectbox('Outlet Location Type', ('Tier 1', 'Tier 2', 'Tier 3'))
@@ -50,8 +56,8 @@ def user_input_features():
     Outlet_Location_Encoded = outlet_location_dict[Outlet_Location_Type]
 
     Outlet_Type = st.sidebar.selectbox('Outlet Type', (
-        'Supermarket Type1', 'Supermarket Type2', 'Supermarket Type3', 'Grocery Store'))
-    outlet_type_dict = {'Supermarket Type1': 0, 'Supermarket Type2': 1, 'Supermarket Type3': 2, 'Grocery Store': 3}
+        'Grocery Store', 'Supermarket Type1', 'Supermarket Type2', 'Supermarket Type3'))
+    outlet_type_dict = {'Grocery Store': 0, 'Supermarket Type1': 1, 'Supermarket Type2': 2, 'Supermarket Type3': 3}
     Outlet_Type_Encoded = outlet_type_dict[Outlet_Type]
 
     data = {
@@ -60,6 +66,7 @@ def user_input_features():
         'Item_Visibility': Item_Visibility,
         'Item_Type': Item_Type_Encoded,
         'Item_MRP': Item_MRP,
+        'Outlet_Establishment_Year': Outlet_Establishment_Year,
         'Outlet_Size': Outlet_Size_Encoded,
         'Outlet_Location_Type': Outlet_Location_Encoded,
         'Outlet_Type': Outlet_Type_Encoded
