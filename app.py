@@ -18,7 +18,7 @@ st.title("🛒 Big Mart Sales Prediction App")
 st.sidebar.header("Enter the Item Details")
 
 def user_input_features():
-    Item_Identifier = st.sidebar.text_input('Item Identifier (optional)', 'FDA15')
+    Item_Identifier = st.sidebar.text_input('Item Identifier', 'FDA15')
 
     Item_Weight = st.sidebar.number_input('Item Weight', min_value=0.0, max_value=25.0, step=0.1)
 
@@ -43,7 +43,7 @@ def user_input_features():
 
     Item_MRP = st.sidebar.number_input('Item MRP', min_value=0.0, max_value=300.0, step=1.0)
 
-    Outlet_Identifier = st.sidebar.text_input('Outlet Identifier (optional)', 'OUT049')
+    Outlet_Identifier = st.sidebar.text_input('Outlet Identifier', 'OUT049')
 
     Outlet_Establishment_Year = st.sidebar.number_input('Outlet Establishment Year', min_value=1985, max_value=2025, step=1)
 
@@ -61,11 +61,13 @@ def user_input_features():
     Outlet_Type_Encoded = outlet_type_dict[Outlet_Type]
 
     data = {
+        'Item_Identifier': Item_Identifier,
         'Item_Weight': Item_Weight,
         'Item_Fat_Content': Fat_Content,
         'Item_Visibility': Item_Visibility,
         'Item_Type': Item_Type_Encoded,
         'Item_MRP': Item_MRP,
+        'Outlet_Identifier': Outlet_Identifier,
         'Outlet_Establishment_Year': Outlet_Establishment_Year,
         'Outlet_Size': Outlet_Size_Encoded,
         'Outlet_Location_Type': Outlet_Location_Encoded,
@@ -97,6 +99,3 @@ if st.button('Predict Sales'):
             st.success(f'Predicted Sales: ₹ {prediction[0]:.2f}')
         except Exception as e:
             st.error(f"Error in prediction: {e}")
-
-
-
