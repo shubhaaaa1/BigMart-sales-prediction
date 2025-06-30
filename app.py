@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 
 # Load the trained model
-model = pickle.load(open('bigmart_model.pkl', 'rb'))  # Make sure you have this file in your directory
+model = pickle.load(open('big_mart_model.pkl', 'rb'))  # Make sure you have this file in your directory
 
 # App Title
 st.set_page_config(page_title="Big Mart Sales Prediction", page_icon="🛒", layout="centered")
