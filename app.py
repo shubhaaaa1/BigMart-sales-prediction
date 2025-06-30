@@ -18,7 +18,7 @@ st.title("🛒 Big Mart Sales Prediction App")
 st.sidebar.header("Enter the Item Details")
 
 def user_input_features():
-    Item_Identifier = st.sidebar.text_input('Item Identifier', 'FDA15')
+    Item_Identifier = st.sidebar.text_input('Item Identifier', '156')
 
     Item_Weight = st.sidebar.number_input('Item Weight', min_value=0.0, max_value=25.0, step=0.1)
 
@@ -43,7 +43,7 @@ def user_input_features():
 
     Item_MRP = st.sidebar.number_input('Item MRP', min_value=0.0, max_value=300.0, step=1.0)
 
-    Outlet_Identifier = st.sidebar.text_input('Outlet Identifier', 'OUT049')
+    Outlet_Identifier = st.sidebar.text_input('Outlet Identifier', '9')
 
     Outlet_Establishment_Year = st.sidebar.number_input('Outlet Establishment Year', min_value=1985, max_value=2025, step=1)
 
